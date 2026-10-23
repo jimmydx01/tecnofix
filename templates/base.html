@@ -1,0 +1,37 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{% block titulo %}TecnoFix – Servicio Técnico{% endblock %}</title>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f59e0b' stroke='%23f59e0b' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/%3E%3C/svg%3E" />
+
+    <!-- El tema (día/noche) se aplica antes de pintar para que no parpadee -->
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('tf-th') || 'dark';
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+
+    <!-- Estilos propios primero y Tailwind después, igual que en el demo -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
+  </head>
+  <body>
+    {% include 'parciales/_nav.html' %}
+
+    {% block contenido %}{% endblock %}
+
+    {% block modales %}{% endblock %}
+
+    {% include 'parciales/_toast.html' %}
+
+    <script src="{% static 'js/tema.js' %}"></script>
+    <script src="{% static 'js/toast.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
+    <script src="{% static 'js/formularios.js' %}"></script>
+  </body>
+</html>

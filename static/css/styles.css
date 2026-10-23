@@ -1,0 +1,94 @@
+/* TecnoFix – estilos propios. El resto del diseño viene de Tailwind (compilado en local, ver static/css/tailwind.css). */
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #0b0420;
+  --fg: #f8fafc;
+  --gl: rgba(255, 255, 255, 0.09);
+  --bd: rgba(255, 255, 255, 0.16);
+  --mo: #160a35;
+}
+:root[data-theme="light"] {
+  --bg: #fff3fa;
+  --fg: #1e1b4b;
+  --gl: rgba(255, 255, 255, 0.92);
+  --bd: rgba(168, 85, 247, 0.28);
+  --mo: #fff;
+}
+html,
+body {
+  background: var(--bg);
+}
+body {
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+}
+.glass {
+  background: var(--gl);
+  border: 1px solid var(--bd);
+  backdrop-filter: blur(8px);
+}
+[data-theme="light"] .glass {
+  box-shadow: 0 6px 22px rgba(168, 85, 247, 0.12);
+}
+.g1 {
+  background: linear-gradient(135deg, #ff2d95, #ff7a00);
+}
+.g2 {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+}
+.g3 {
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+}
+.g4 {
+  background: linear-gradient(135deg, #facc15, #f97316);
+}
+.txt {
+  background: linear-gradient(90deg, #06b6d4, #d946ef, #f97316);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.inp {
+  width: 100%;
+  border-radius: 0.75rem;
+  background: var(--gl);
+  border: 1px solid var(--bd);
+  color: var(--fg);
+  padding: 0.55rem 0.8rem;
+  outline: none;
+}
+.inp:focus,
+.inp:focus-within {
+  border-color: #d946ef;
+}
+.inp input {
+  background: transparent;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  color: var(--fg);
+}
+select option {
+  color: #000;
+}
+.btn {
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+.btn.t {
+  color: #fff;
+}
+.sc {
+  overflow-x: auto;
+}
+@keyframes fl {
+  50% {
+    transform: translateY(-14px) rotate(3deg);
+  }
+}
+.fl {
+  animation: fl 4s ease-in-out infinite;
+}

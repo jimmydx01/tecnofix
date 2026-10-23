@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load iconos %}
+
+{% block titulo %}Cambiar contraseña · TecnoFix{% endblock %}
+
+{% block contenido %}
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <form method="post" action="{% url 'cambiar_contrasena' %}" class="glass rounded-3xl p-8 space-y-3 max-w-md mx-auto" novalidate>
+      {% csrf_token %}
+      {% ico 'key' 'w-12 h-12 text-cyan-400' '1.5' %}
+      <h2 class="text-2xl font-extrabold txt">Cambiar contraseña</h2>
+      {% if user.debe_cambiar_contrasena %}
+        <div class="bg-amber-500/20 border border-amber-500/60 rounded-xl p-3 text-sm">Tu contraseña es temporal. Elige una nueva para continuar.</div>
+      {% endif %}
+      {% include 'parciales/_campo.html' with campo=form.actual icono='lock' ph='Contraseña actual' tipo='password' auto='current-password' %}
+      {% include 'parciales/_campo.html' with campo=form.nueva icono='key' ph='Nueva contraseña' tipo='password' auto='new-password' %}
+      {% include 'parciales/_campo.html' with campo=form.repetir icono='key' ph='Repite la nueva contraseña' tipo='password' auto='new-password' %}
+      {% if not form.nueva.errors %}
+        <p class="text-xs opacity-70 px-1">Mínimo 8 caracteres, que no sea solo números ni muy común.</p>
+      {% endif %}
+      <button type="submit" class="btn g1 t w-full py-3">Guardar contraseña</button>
+      {% if not user.debe_cambiar_contrasena %}
+        <a href="{% url 'panel' %}" class="btn glass w-full block text-center">Cancelar</a>
+      {% endif %}
+    </form>
+  </main>
+{% endblock %}

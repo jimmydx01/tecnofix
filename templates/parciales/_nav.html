@@ -1,0 +1,23 @@
+{% load iconos %}
+<nav class="sticky top-0 z-40 glass">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+    <a href="{% url 'inicio' %}" class="text-xl font-extrabold inline-flex items-center gap-1">
+      {% ico 'bolt' 'w-6 h-6 text-amber-400 fill-amber-400' %}<span class="txt">TecnoFix</span>
+    </a>
+    <div class="flex items-center gap-2 text-sm">
+      <button type="button" data-tema-toggle class="btn glass" title="Día / Noche"></button>
+      {% if user.is_authenticated %}
+        <a href="{% url 'cambiar_contrasena' %}" class="btn glass" title="Cambiar contraseña" aria-label="Cambiar contraseña">{% ico 'key' 'w-5 h-5' %}</a>
+        <a href="{% url 'panel' %}" class="btn glass hidden sm:block">{{ user.nombre }}</a>
+        <form method="post" action="{% url 'salir' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn glass">Salir</button>
+        </form>
+      {% else %}
+        <a href="{% url 'inicio' %}#servicios" class="hidden sm:block px-2">Servicios</a>
+        <button type="button" data-abrir-modal="modal-ingresar" class="btn glass">Ingresar</button>
+        <button type="button" data-abrir-modal="modal-registro" class="btn g1 t">Registro</button>
+      {% endif %}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,34 @@
+{% extends 'panel/admin_base.html' %}
+{% load iconos %}
+
+{% block panel %}
+  <form method="post" action="{% url 'personal' %}" class="glass rounded-2xl p-5 grid sm:grid-cols-4 gap-3 items-start" novalidate>
+    {% csrf_token %}
+    {% include 'parciales/_campo.html' with campo=form.nombre icono='user' ph='Nombre' auto='off' %}
+    {% include 'parciales/_campo.html' with campo=form.email icono='mail' ph='Correo' tipo='email' auto='off' %}
+    {% include 'parciales/_campo.html' with campo=form.password icono='lock' ph='Contraseña' tipo='password' auto='new-password' %}
+    <button type="submit" class="btn g3 t">+ Registrar técnico</button>
+  </form>
+
+  <form method="get" class="my-3">
+    <input name="q" class="inp" placeholder="Buscar personal por nombre o correo" value="{{ q }}" data-buscar autocomplete="off">
+  </form>
+
+  {% for u in pagina %}
+    <div class="glass rounded-2xl p-4 mb-2 flex justify-between items-center gap-3 flex-wrap">
+      <div>
+        {% ico 'wrench' 'w-5 h-5 inline -mt-1 opacity-70' %}
+        <b>{{ u.nombre }}</b>
+        <span class="opacity-70 text-sm">{{ u.email }} · {{ u.activos }} activo{{ u.activos|pluralize }}</span>
+        {% if not u.is_active %}<span class="bg-slate-500 text-white text-xs rounded-full px-2 py-1">Desactivado</span>{% endif %}
+      </div>
+      <div class="flex gap-2 items-center">
+        {% include 'parciales/_acciones_usuario.html' with volver=request.get_full_path %}
+      </div>
+    </div>
+  {% empty %}
+    <p class="opacity-60">{% if q %}No hay personal que coincida con la búsqueda.{% else %}Aún no hay técnicos registrados.{% endif %}</p>
+  {% endfor %}
+
+  {% include 'parciales/_paginador.html' %}
+{% endblock %}

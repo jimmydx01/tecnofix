@@ -1,0 +1,8 @@
+{% load iconos %}
+<!-- Pestañas del administrador. Cada paso nuevo del proyecto agrega la suya -->
+<div class="flex gap-2 overflow-x-auto pb-3">
+  <a href="{% url 'panel' %}" class="btn whitespace-nowrap inline-flex items-center gap-2 {% if tab == 'dash' %}g1 t shadow-lg{% else %}glass{% endif %}">{% ico 'chart' 'w-4 h-4' %}Dashboard</a>
+  <a href="{% url 'personal' %}" class="btn whitespace-nowrap inline-flex items-center gap-2 {% if tab == 'per' %}g3 t shadow-lg{% else %}glass{% endif %}">{% ico 'users' 'w-4 h-4' %}Personal</a>
+  <a href="{% url 'clientes' %}" class="btn whitespace-nowrap inline-flex items-center gap-2 {% if tab == 'cli' %}g4 t shadow-lg{% else %}glass{% endif %}">{% ico 'user' 'w-4 h-4' %}Clientes</a>
+  <a href="{% url 'tarifas' %}" class="btn whitespace-nowrap inline-flex items-center gap-2 {% if tab == 'tar' %}g4 t shadow-lg{% else %}glass{% endif %}">{% ico 'dollar' 'w-4 h-4' %}Tarifas</a>
+</div>

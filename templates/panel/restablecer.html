@@ -1,0 +1,15 @@
+{% extends 'panel/admin_base.html' %}
+{% load iconos %}
+
+{% block panel %}
+  <form method="post" class="glass rounded-3xl p-8 space-y-3 max-w-md" novalidate>
+    {% csrf_token %}
+    <h3 class="text-xl font-extrabold inline-flex items-center gap-2">{% ico 'key' 'w-6 h-6' %}Restablecer contraseña</h3>
+    <p class="text-sm opacity-80">Para <b>{{ persona.nombre }}</b> ({{ persona.email }}). Es una contraseña temporal: la persona deberá cambiarla en cuanto ingrese.</p>
+    {% include 'parciales/_campo.html' with campo=form.password icono='lock' ph='Contraseña temporal' tipo='password' auto='new-password' %}
+    <div class="flex gap-2">
+      <button type="submit" class="btn g3 t">Asignar contraseña</button>
+      <a href="{% if persona.es_tecnico %}{% url 'personal' %}{% else %}{% url 'clientes' %}{% endif %}" class="btn glass">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}

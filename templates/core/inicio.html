@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load formato iconos %}
+
+{% block contenido %}
+  <!-- Portada -->
+  <header class="relative overflow-hidden">
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-fuchsia-500/40 blur-3xl"></div>
+    <div class="absolute top-10 right-0 w-96 h-96 rounded-full bg-cyan-400/40 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-orange-400/30 blur-3xl"></div>
+    <div class="relative max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="glass rounded-full px-4 py-1 text-sm inline-flex items-center gap-2">{% ico 'wrench' 'w-4 h-4' %}Servicio técnico especializado</span>
+        <h1 class="text-4xl md:text-6xl font-extrabold mt-5 leading-tight">
+          Tu tecnología,
+          <span class="txt">como nueva</span>
+        </h1>
+        <p class="mt-5 opacity-80 text-lg">Reparamos computadoras, laptops, celulares y más. Registra tu equipo, sigue el estado en tiempo real y paga en línea cuando esté listo.</p>
+        <div class="mt-8 flex gap-3 flex-wrap">
+          {% if not user.is_authenticated %}
+            <button type="button" data-abrir-modal="modal-registro" class="btn g1 t text-lg px-6 py-3 shadow-lg">Registrarme y solicitar servicio</button>
+          {% endif %}
+          <a href="#servicios" class="btn glass px-6 py-3 text-lg">Ver servicios</a>
+        </div>
+      </div>
+      <div class="fl select-none">{% include 'parciales/_foto.html' with s=portada caja='w-full h-72 md:h-96 rounded-3xl shadow-2xl' ic='w-32 h-32 opacity-50' %}</div>
+    </div>
+  </header>
+
+  <!-- Tres cifras reales calculadas desde la base de datos -->
+  <section class="max-w-6xl mx-auto px-4 grid grid-cols-3 gap-3 text-center">
+    {% for cantidad, texto, color in estadisticas %}
+      <div class="{{ color }} text-white rounded-2xl py-5 shadow-lg">
+        <div class="text-2xl md:text-3xl font-extrabold">{{ cantidad }}</div>
+        <div class="text-xs md:text-sm">{{ texto }}</div>
+      </div>
+    {% endfor %}
+  </section>
+
+  <!-- Servicios: al hacer clic se ve la lista de precios base -->
+  <section id="servicios" class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-extrabold text-center">
+      Nuestros
+      <span class="txt">servicios</span>
+    </h2>
+    {% if servicios %}
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+        {% for s in servicios %}
+          <div role="button" tabindex="0" data-abrir-modal="modal-servicio-{{ s.pk }}" class="glass rounded-2xl overflow-hidden hover:-translate-y-1 transition cursor-pointer">
+            {% include 'parciales/_foto.html' with s=s caja='w-full h-44' ic='w-16 h-16 opacity-50' %}
+            <div class="p-6 pt-4">
+            <h3 class="font-bold text-lg">{{ s.nombre }}</h3>
+            <p class="text-sm opacity-70 mt-1">Diagnóstico profesional y repuestos de calidad.</p>
+            <p class="text-sm font-bold mt-3 txt">Ver precios base →</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center opacity-70 mt-10">Aún no hay servicios registrados. El administrador puede cargarlos desde el panel.</p>
+    {% endif %}
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="max-w-6xl mx-auto px-4 pb-16 grid md:grid-cols-3 gap-5">
+    <div class="glass rounded-2xl p-6">
+      <div class="g2 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+      <h3 class="font-bold mt-3">Regístrate</h3>
+      <p class="text-sm opacity-70">Crea tu cuenta en segundos</p>
+    </div>
+    <div class="glass rounded-2xl p-6">
+      <div class="g3 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+      <h3 class="font-bold mt-3">Cuéntanos tu equipo</h3>
+      <p class="text-sm opacity-70">Servicio, modelo y fotos</p>
+    </div>
+    <div class="glass rounded-2xl p-6">
+      <div class="g4 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+      <h3 class="font-bold mt-3">Paga y recoge</h3>
+      <p class="text-sm opacity-70">Te avisamos en cada paso</p>
+    </div>
+  </section>
+
+  <footer class="text-center opacity-50 text-sm pb-8">© 2026 TecnoFix · Servicio técnico</footer>
+{% endblock %}
+
+{% block modales %}
+  {% if not user.is_authenticated %}
+    {% include 'parciales/_modal_auth.html' %}
+  {% endif %}
+
+  <!-- Una ventana de precios por cada servicio -->
+  {% for s in servicios %}
+    <div id="modal-servicio-{{ s.pk }}" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" data-modal>
+      <div class="rounded-3xl overflow-hidden shadow-2xl w-full max-w-md" style="background:var(--mo);border:1px solid var(--bd)">
+        <div class="max-h-[85vh] overflow-y-auto">
+          {% include 'parciales/_foto.html' with s=s caja='w-full h-40 rounded-none' ic='w-16 h-16 opacity-50' %}
+        <div class="p-6 space-y-3">
+          <h3 class="text-xl font-extrabold">{{ s.nombre }}</h3>
+          <div class="flex justify-between glass rounded-xl px-3 py-2">
+            <span>Precio base del servicio</span>
+            <b>{{ s.precio_base|dinero }}</b>
+          </div>
+          <div class="text-sm font-bold">Tarifas base</div>
+          {% for t in tarifas %}
+            <div class="flex justify-between text-sm glass rounded-xl px-3 py-2">
+              <span>{{ t.nombre }}</span>
+              <b>{{ t.precio|dinero }}</b>
+            </div>
+          {% endfor %}
+          <p class="text-xs opacity-70">Los repuestos se cotizan en el diagnóstico. Precios referenciales.</p>
+          {% if not user.is_authenticated %}
+            <button type="button" data-abrir-modal="modal-registro" class="btn g1 t w-full py-3">Registrarme y solicitar</button>
+          {% endif %}
+        </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% load iconos %}{# Foto de un servicio. Recibe: s (el servicio) y caja (tamaño y bordes). Si no hay vínculo o falla, queda el ícono #}
+<div class="relative overflow-hidden flex items-center justify-center bg-slate-500/20 shrink-0 {{ caja }}">
+  {% ico_servicio s.nombre ic|default:'w-7 h-7 opacity-60' %}
+  {% if s.imagen %}
+    <img src="{{ s.imagen }}" alt="{{ s.nombre }}" loading="lazy" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover" onerror="this.remove()">
+  {% endif %}
+</div>

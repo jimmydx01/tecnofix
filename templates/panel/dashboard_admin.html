@@ -1,0 +1,12 @@
+{% extends 'panel/admin_base.html' %}
+{% load iconos %}
+
+{% block panel %}
+  <div class="glass rounded-2xl p-5">
+    <b class="inline-flex items-center gap-2">{% ico 'wrench' 'w-5 h-5' %}Estamos construyendo esta sección</b>
+    <p class="text-sm opacity-70 mt-1">{{ en_proceso }} servicios activos. Aquí irán los indicadores y los gráficos del negocio.</p>
+    {% if user.is_staff %}
+      <a href="{% url 'admin:index' %}" class="btn glass text-sm inline-block mt-3">Administrar datos (Django)</a>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% load iconos %}{# Campo de formulario con icono. Recibe: campo (un campo del formulario), icono, ph, tipo, auto y, para números, step y minimo #}
+<div>
+  <label class="inp flex items-center gap-2{% if campo.errors %} border-rose-500{% endif %}">
+    {% ico icono 'w-5 h-5 shrink-0 opacity-70' %}
+    <input id="{{ campo.id_for_label }}" name="{{ campo.html_name }}" type="{{ tipo|default:'text' }}" placeholder="{{ ph }}" autocomplete="{{ auto|default:'off' }}"{% if step %} step="{{ step }}" min="{{ minimo|default:'0' }}"{% endif %}{% if campo.field.max_length %} maxlength="{{ campo.field.max_length }}"{% endif %}{% if tipo != 'password' and campo.value %} value="{{ campo.value }}"{% endif %}{% if campo.errors %} data-error aria-invalid="true"{% endif %}>
+  </label>
+  {% if campo.errors %}
+    <p class="text-xs text-rose-500 mt-1 px-1">{{ campo.errors.0 }}</p>
+  {% endif %}
+</div>

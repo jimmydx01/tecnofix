@@ -1,0 +1,26 @@
+{% extends 'panel/admin_base.html' %}
+{% load iconos %}
+
+{% block panel %}
+  <form method="get" class="mb-3">
+    <input name="q" class="inp" placeholder="Buscar cliente por nombre, correo o teléfono" value="{{ q }}" data-buscar autocomplete="off">
+  </form>
+
+  {% for u in pagina %}
+    <div class="glass rounded-2xl p-4 mb-2 flex justify-between items-center gap-3 flex-wrap">
+      <div>
+        {% ico 'user' 'w-5 h-5 inline -mt-1 opacity-70' %}
+        <b>{{ u.nombre }}</b>
+        <span class="opacity-70 text-sm">{{ u.email }} {{ u.telefono }} · {{ u.servicios }} servicio{{ u.servicios|pluralize }}</span>
+        {% if not u.is_active %}<span class="bg-slate-500 text-white text-xs rounded-full px-2 py-1">Desactivado</span>{% endif %}
+      </div>
+      <div class="flex gap-2 items-center">
+        {% include 'parciales/_acciones_usuario.html' with volver=request.get_full_path %}
+      </div>
+    </div>
+  {% empty %}
+    <p class="opacity-60">{% if q %}No hay clientes que coincidan con la búsqueda.{% else %}Aún no hay clientes registrados.{% endif %}</p>
+  {% endfor %}
+
+  {% include 'parciales/_paginador.html' %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{# Paginador sencillo. Recibe: pagina (la página actual) y q (la búsqueda, para no perderla) #}
+{% if pagina.paginator.num_pages > 1 %}
+  <div class="flex items-center justify-center gap-3 mt-4 text-sm">
+    {% if pagina.has_previous %}
+      <a href="?pagina={{ pagina.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}" class="btn glass">← Anterior</a>
+    {% endif %}
+    <span class="opacity-70">Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+    {% if pagina.has_next %}
+      <a href="?pagina={{ pagina.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}" class="btn glass">Siguiente →</a>
+    {% endif %}
+  </div>
+{% endif %}

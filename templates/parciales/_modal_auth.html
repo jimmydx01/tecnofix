@@ -1,0 +1,52 @@
+{% load iconos %}<!-- Ventanas de ingreso y registro. Si el formulario trae errores, la página abre la ventana correspondiente -->
+<div id="modal-ingresar" class="{% if modal_abierto != 'modal-ingresar' %}hidden {% endif %}fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" data-modal>
+  <div class="rounded-3xl overflow-hidden shadow-2xl w-full max-w-3xl grid md:grid-cols-2" style="background:var(--mo);border:1px solid var(--bd)">
+    <div class="hidden md:flex g1 text-white p-8 flex-col justify-center">
+      <div class="fl">{% ico 'lock' 'w-20 h-20' '1.4' %}</div>
+      <h3 class="text-3xl font-extrabold mt-4">¡Bienvenido de vuelta!</h3>
+      <p class="mt-2 opacity-90">Gestiona tus servicios, notificaciones y pagos.</p>
+    </div>
+    <form class="p-8 space-y-3 max-h-[90vh] overflow-y-auto" method="post" action="{% url 'ingresar' %}" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ siguiente }}">
+      <h3 class="text-2xl font-extrabold txt">Ingresar</h3>
+      {% if form_ingreso.non_field_errors %}
+        <div class="bg-rose-500/20 border border-rose-500/60 rounded-xl p-3 text-sm">{{ form_ingreso.non_field_errors.0 }}</div>
+      {% endif %}
+      {% include 'parciales/_campo.html' with campo=form_ingreso.email icono='mail' ph='Correo' tipo='email' auto='email' %}
+      {% include 'parciales/_campo.html' with campo=form_ingreso.password icono='lock' ph='Contraseña' tipo='password' auto='current-password' %}
+      <button type="submit" class="btn g1 t w-full py-3">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<div id="modal-registro" class="{% if modal_abierto != 'modal-registro' %}hidden {% endif %}fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" data-modal>
+  <div class="rounded-3xl overflow-hidden shadow-2xl w-full max-w-3xl grid md:grid-cols-2" style="background:var(--mo);border:1px solid var(--bd)">
+    <div class="hidden md:flex g1 text-white p-8 flex-col justify-center">
+      <div class="fl">{% ico 'rocket' 'w-20 h-20' '1.4' %}</div>
+      <h3 class="text-3xl font-extrabold mt-4">Únete a TecnoFix</h3>
+      <p class="mt-2 opacity-90">Registra tus equipos, sigue su reparación y paga en línea.</p>
+    </div>
+    <form class="p-8 space-y-3 max-h-[90vh] overflow-y-auto" method="post" action="{% url 'registro' %}" novalidate>
+      {% csrf_token %}
+      <h3 class="text-2xl font-extrabold txt">Crear cuenta</h3>
+      {% include 'parciales/_campo.html' with campo=form_registro.nombre icono='user' ph='Nombre completo' auto='name' %}
+      {% include 'parciales/_campo.html' with campo=form_registro.email icono='mail' ph='Correo' tipo='email' auto='email' %}
+      {% include 'parciales/_campo.html' with campo=form_registro.telefono icono='phone' ph='Teléfono (0991234567)' tipo='tel' auto='tel' %}
+      {% include 'parciales/_campo.html' with campo=form_registro.password icono='lock' ph='Contraseña' tipo='password' auto='new-password' %}
+      {% if not form_registro.password.errors %}
+        <p class="text-xs opacity-70 px-1">Mínimo 8 caracteres, que no sea solo números ni muy común.</p>
+      {% endif %}
+      <div>
+        <label class="flex items-start gap-2 text-xs opacity-80 cursor-pointer">
+          <input type="checkbox" name="acepto" id="reg_acepto" class="mt-0.5 accent-fuchsia-500"{% if form_registro.acepto.value %} checked{% endif %}>
+          <span>Acepto el tratamiento de mis datos personales para gestionar mis servicios técnicos.</span>
+        </label>
+        {% if form_registro.acepto.errors %}
+          <p class="text-xs text-rose-500 mt-1 px-1">{{ form_registro.acepto.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn g1 t w-full py-3">Registrarme</button>
+    </form>
+  </div>
+</div>

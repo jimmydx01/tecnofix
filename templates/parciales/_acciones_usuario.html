@@ -1,0 +1,16 @@
+{% load iconos %}<a href="{% url 'usuario_contrasena' u.pk %}" class="btn glass text-sm inline-flex items-center gap-1" title="Restablecer contraseña">{% ico 'key' 'w-4 h-4' %}Contraseña</a>
+{# Botones de una fila de usuario. Recibe: u (el usuario) y volver (a qué lista regresar) #}
+<form method="post" action="{% url 'usuario_estado' u.pk %}">
+  {% csrf_token %}
+  <input type="hidden" name="volver" value="{{ volver }}">
+  {% if u.is_active %}
+    <button type="submit" class="btn glass text-sm" data-confirmar="¿Desactivar a {{ u.nombre }}? No podrá ingresar, pero se conserva su historial.">Desactivar</button>
+  {% else %}
+    <button type="submit" class="btn g3 t text-sm">Activar</button>
+  {% endif %}
+</form>
+<form method="post" action="{% url 'usuario_eliminar' u.pk %}">
+  {% csrf_token %}
+  <input type="hidden" name="volver" value="{{ volver }}">
+  <button type="submit" class="text-rose-500" data-confirmar="¿Eliminar a {{ u.nombre }}? Esta acción no se puede deshacer.">Eliminar</button>
+</form>

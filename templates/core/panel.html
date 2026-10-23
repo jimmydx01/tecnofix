@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load iconos %}
+
+{% block titulo %}Mi panel · TecnoFix{% endblock %}
+
+{% block contenido %}
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    {% if user.es_cliente %}
+      <div class="g1 text-white rounded-3xl p-6 flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-extrabold">Hola, {{ user.nombre }}</h2>
+          <p class="opacity-90">{{ en_proceso }} equipos en proceso</p>
+        </div>
+        {% ico 'laptop' 'w-14 h-14 opacity-90' '1.5' %}
+      </div>
+    {% else %}
+      <div class="g2 text-white rounded-3xl p-6">
+        <h2 class="text-2xl font-extrabold">Panel técnico · {{ user.nombre }}</h2>
+        <p>{{ en_proceso }} activas</p>
+      </div>
+    {% endif %}
+
+    <div class="glass rounded-2xl p-5 mt-5">
+      <b class="inline-flex items-center gap-2">{% ico 'wrench' 'w-5 h-5' %}Estamos construyendo esta sección</b>
+      <p class="text-sm opacity-70 mt-1">Tu cuenta ya funciona. Las solicitudes, los equipos y el resto del panel se agregan en los siguientes pasos.</p>
+    </div>
+  </main>
+{% endblock %}

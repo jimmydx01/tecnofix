@@ -1,0 +1,5 @@
+<!-- Mensaje breve en pantalla. Los mensajes de Django (messages) se muestran aquí -->
+<div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 g1 text-white px-5 py-2 rounded-full font-semibold shadow-xl hidden z-[60]"></div>
+{% for mensaje in messages %}
+  <span class="hidden" data-mensaje>{{ mensaje }}</span>
+{% endfor %}
